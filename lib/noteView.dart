@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'navBar.dart';
 import 'loginScreen.dart';
+import 'noteData.dart';
 
 class noteView extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class noteView extends StatefulWidget {
 class _NoteViewState extends State<noteView> {
   final GlobalKey<ScaffoldState> _drawerscaffoldkey =
       new GlobalKey<ScaffoldState>();
+  late Future<Note> futureNote;
 
   @override
   Widget build(BuildContext context) {
