@@ -29,16 +29,16 @@ class Note {
   factory Note.fromJson(Map<String, dynamic> json) {
     return Note(
       userId: json['userId'],
-      id: json['noteId'],
-      name: json['name'],
-      body: json['body'],
-      tags: json['tags'],
+      id: json['_id'],
+      name: json['noteName'],
+      body: json['noteBody'],
+      tags: json['noteTags'],
     );
   }
 }
 
 class noteData {
-  Future<Note> getNote(String url) async {
+  Future<Note> getNote(String url, String outgoing) async {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -46,13 +46,19 @@ class noteData {
       return Note.fromJson(jsonDecode(response.body));
     } else {
       //throw an exception, server did not return ok response.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load');
     }
   }
 
-  Future<Note> searchNotes(String url, String outgoing) async {
-    final response = await http.get(Uri.parse(url));
-  }
+  Future<Note> deleteNote(String url, String id) async {
+    final response = await http.delete(Uri.parse(url));
 
-  Future<Note> deleteNote(String url, String) {}
+    if (response.statusCode == 200) {
+      //server returns ok response, parse json
+      return Note.fromJson(jsonDecode(response.body));
+    } else {
+      //throw an exception, server did not return ok response.
+      throw Exception('Failed to load');
+    }
+  }
 }
