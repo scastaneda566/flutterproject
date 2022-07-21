@@ -39,10 +39,13 @@ class _NoteViewState extends State<noteView> {
                 GlobalData.lastName = '';
                 GlobalData.email = '';
                 GlobalData.password = '';
+                tempFirst = '';
+                tempLast = '';
                 Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => loginScreen())
                 );
+                print(GlobalData.firstName);
               },
               child: Text("Logout"),
             ),
@@ -87,7 +90,7 @@ class _NoteViewState extends State<noteView> {
         body: Scaffold(
           backgroundColor: Color(0xFF424242),
           key: _drawerscaffoldkey,
-          drawer: NavBar(),
+          drawer: navBar(),
         ));
   }
 }
