@@ -13,22 +13,51 @@ class noteView extends StatefulWidget {
 class _NoteViewState extends State<noteView> {
   final GlobalKey<ScaffoldState> _drawerscaffoldkey =
   new GlobalKey<ScaffoldState>();
+  String tempFirst = GlobalData.firstName;
+  String tempLast = GlobalData.lastName;
 
-/* Not sure about this yet.
-  signOut() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('loggedin', false);
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => loginScreen()));
-  }
-*/
   @override
+
+  void _logout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          title: const Text("Logout"),
+          content: const Text("Are you sure you want to logout?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                GlobalData.userId = '';
+                GlobalData.firstName = '';
+                GlobalData.lastName = '';
+                GlobalData.email = '';
+                GlobalData.password = '';
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => loginScreen())
+                );
+              },
+              child: Text("Logout"),
+            ),
+          ],
+        );
+      }
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           iconTheme:
           IconThemeData(color: Color(0xFF6CA8F1), opacity: 1, size: 40),
-          title: Text('View Note', style: TextStyle(color: Colors.white)),
+          title: Text('$tempLast, $tempFirst', style: TextStyle(color: Colors.white)),
           backgroundColor: Color(0xFF212121),
           leading: IconButton(
             icon: Icon(Icons.toc_rounded),
@@ -42,16 +71,17 @@ class _NoteViewState extends State<noteView> {
           ),
           actions: [
             IconButton(
-                icon: Icon(Icons.logout_rounded),
-                onPressed: () {
-                  //signOut();
-                }),
+              icon: Icon(Icons.search),
+              onPressed: () {
+                //open search box
+                //
+              }
+            ),
             IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  //open search box
-                  //
-                }),
+                icon: Icon(Icons.logout_rounded),
+                onPressed: () => _logout(context),
+            ),
+
           ],
         ),
         body: Scaffold(

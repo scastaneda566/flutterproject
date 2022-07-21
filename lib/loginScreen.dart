@@ -14,8 +14,28 @@ class loginScreen extends StatefulWidget {
 String email = '';
 String password = '';
 
+class GlobalData
+{
+  static String userId = '';
+  static String firstName = '';
+  static String lastName = '';
+  static String email = '';
+  static String password = '';
+}
+
+
 class _LoginScreenState extends State<loginScreen> {
   @override
+
+  String message = '';
+  String newMessageText = '';
+
+  changeText() {
+    setState(() {
+      message = newMessageText;
+    });
+  }
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,7 +187,45 @@ class _LoginScreenState extends State<loginScreen> {
                       child: ElevatedButton(
                         onPressed: () async
                         {
-                          String 
+                          String payload = '{"email":"' + email.trim() + '","password":"' + password.trim() + '"}';
+                          var userId = '';
+                          var jsonObject;
+                          String ret = '';
+                          try
+                          {
+                            String url = "https://marky-mark.herokuapp.com/api/users/?email=$email&password=$password";
+                            ret = await loginData.getJson(url, payload);
+                            jsonObject = json.decode(ret);
+                            print(jsonObject);
+                            userId = jsonObject["userId"];
+                            print(userId);
+                          }
+                          catch(e)
+                          {
+                            newMessageText = "Incorrect Login/Password";
+                            changeText();
+                            return;
+                          }
+
+                          if(userId.isEmpty)
+                          {
+                            newMessageText = "Incorrect Login/Password";
+                            changeText();
+                          }
+                          else
+                          {
+                            GlobalData.userId = userId;
+                            GlobalData.firstName = jsonObject["firstName"];
+                            GlobalData.lastName = jsonObject["lastName"];
+                            GlobalData.email = email;
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => noteView())
+                            );
+                          }
+
+
                         },
 
                         child: Text(
@@ -203,6 +261,11 @@ class _LoginScreenState extends State<loginScreen> {
                       ),
                     ),
                   ),
+                  Row(
+                    children: <Widget> [
+                      Text('$message',style: TextStyle(fontSize: 10.0, color: Colors.white)),
+                    ],
+                  ) ,
                   ],
                 )
               ),

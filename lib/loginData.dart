@@ -6,8 +6,9 @@ class loginData {
   {
     String ret = "";
 
+    final uri = Uri.parse(url);
     try {
-      http.Response response = await http.post(url, body: );
+      http.Response response = await http.get(uri);
 
       ret = response.body;
     }
