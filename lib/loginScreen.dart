@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'RegisterScreen.dart';
 import 'loginData.dart';
 import 'noteView.dart';
@@ -196,9 +195,7 @@ class _LoginScreenState extends State<loginScreen> {
                             String url = "https://marky-mark.herokuapp.com/api/users/?email=$email&password=$password";
                             ret = await loginData.getJson(url, payload);
                             jsonObject = json.decode(ret);
-                            print(jsonObject);
                             userId = jsonObject["userId"];
-                            print(userId);
                           }
                           catch(e)
                           {

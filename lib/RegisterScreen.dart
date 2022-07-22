@@ -1,13 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'loginScreen.dart';
+import 'registerData.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
+String email = '';
+String firstName = '';
+String lastName = '';
+String password = '';
+
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
+
+  String message = '';
+  String newMessageText = '';
+
+  changeText() {
+    setState(() {
+      message = newMessageText;
+    });
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,6 +95,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         height: 60.0,
                         child: TextField (
+                          onChanged: (text) {
+                            email = text;
+                          },
                           keyboardType: TextInputType.emailAddress,
                           style: TextStyle(color: Colors.white),
                           decoration: InputDecoration(
@@ -126,6 +145,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         height: 60.0,
                         child: TextField(
+                          onChanged: (text) {
+                            firstName = text;
+                          },
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'OpenSans',
@@ -175,6 +197,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         height: 60.0,
                         child: TextField(
+                          onChanged: (text) {
+                            lastName = text;
+                          },
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'OpenSans',
@@ -224,6 +249,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         height: 60.0,
                         child: TextField(
+                          onChanged: (text) {
+                            password = text;
+                          },
                           obscureText: true,
                           style: TextStyle(
                             color: Colors.white,
@@ -265,7 +293,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Container(
                     alignment: Alignment.bottomLeft,
                     child: ElevatedButton(
-                      onPressed: () => "Sign Up Button Worked",
+                      onPressed: () async
+                      {
+                        String payload = '{"firstName":"' + firstName.trim() + '","lastName":"' + lastName.trim() + '","email":"' + email.trim() + '","password":"' + password.trim() + '"}';
+                        var jsonObject;
+                        String ret = '';
+
+                        try {
+                          String url = "https://marky-mark.herokuapp.com/api/users";
+
+                          if(firstName.isEmpty || lastName.isEmpty || email.isEmpty || password.isEmpty) {
+                            newMessageText = "Please fill out all fields";
+                            changeText();
+                            return;
+                          }
+
+                          ret = await registerData.getRegJson(url, payload);
+                          jsonObject = json.decode(ret);
+                        }
+                        catch(e)
+                        {
+                          newMessageText = 'User already exists';
+                          changeText();
+                          //print(e.toString());
+                          return;
+                        }
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => loginScreen())
+                        );
+
+                      },
 
                       child: Text(
                         'Sign Up',
@@ -282,6 +341,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     )
                   ),
+                  Row(
+                    children: <Widget> [
+                      Text('$message',style: TextStyle(fontSize: 10.0, color: Colors.white)),
+                    ],
+                  )
                 ],
               ),
             ),
