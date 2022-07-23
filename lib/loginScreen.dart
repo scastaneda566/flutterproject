@@ -193,6 +193,13 @@ class _LoginScreenState extends State<loginScreen> {
                           try
                           {
                             String url = "https://marky-mark.herokuapp.com/api/users/?email=$email&password=$password";
+
+                            if(email.isEmpty || password.isEmpty) {
+                              newMessageText = "Please fill out all fields";
+                              changeText();
+                              return;
+                            }
+
                             ret = await loginData.getJson(url, payload);
                             jsonObject = json.decode(ret);
                             userId = jsonObject["userId"];
