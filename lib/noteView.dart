@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'NavBar.dart';
 import 'loginScreen.dart';
 
@@ -12,55 +11,52 @@ class noteView extends StatefulWidget {
 
 class _NoteViewState extends State<noteView> {
   final GlobalKey<ScaffoldState> _drawerscaffoldkey =
-  new GlobalKey<ScaffoldState>();
+      new GlobalKey<ScaffoldState>();
   String tempFirst = GlobalData.firstName;
   String tempLast = GlobalData.lastName;
 
   @override
-
   void _logout(BuildContext context) {
     showDialog(
-      context: context,
-      builder: (BuildContext ctx) {
-        return AlertDialog(
-          title: const Text("Logout"),
-          content: const Text("Are you sure you want to logout?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                GlobalData.userId = '';
-                GlobalData.firstName = '';
-                GlobalData.lastName = '';
-                GlobalData.email = '';
-                GlobalData.password = '';
-                tempFirst = '';
-                tempLast = '';
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => loginScreen())
-                );
-                print(GlobalData.firstName);
-              },
-              child: Text("Logout"),
-            ),
-          ],
-        );
-      }
-    );
+        context: context,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            title: const Text("Logout"),
+            content: const Text("Are you sure you want to logout?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () {
+                  GlobalData.userId = '';
+                  GlobalData.firstName = '';
+                  GlobalData.lastName = '';
+                  GlobalData.email = '';
+                  GlobalData.password = '';
+                  tempFirst = '';
+                  tempLast = '';
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => loginScreen()));
+                  print(GlobalData.firstName);
+                },
+                child: Text("Logout"),
+              ),
+            ],
+          );
+        });
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           iconTheme:
-          IconThemeData(color: Color(0xFF6CA8F1), opacity: 1, size: 40),
-          title: Text('$tempLast, $tempFirst', style: TextStyle(color: Colors.white)),
+              IconThemeData(color: Color(0xFF6CA8F1), opacity: 1, size: 40),
+          title: Text('$tempLast, $tempFirst',
+              style: TextStyle(color: Colors.white)),
           backgroundColor: Color(0xFF212121),
           leading: IconButton(
             icon: Icon(Icons.toc_rounded),
@@ -74,17 +70,15 @@ class _NoteViewState extends State<noteView> {
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                //open search box
-                //
-              }
-            ),
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  //open search box
+                  //
+                }),
             IconButton(
-                icon: Icon(Icons.logout_rounded),
-                onPressed: () => _logout(context),
+              icon: Icon(Icons.logout_rounded),
+              onPressed: () => _logout(context),
             ),
-
           ],
         ),
         body: Scaffold(
@@ -92,5 +86,29 @@ class _NoteViewState extends State<noteView> {
           key: _drawerscaffoldkey,
           drawer: navBar(),
         ));
+  }
+}
+
+class Note {
+  int userId = -1;
+  String id = "";
+  String name = "";
+  String body = "";
+  List<String> tags = [];
+
+  Note(
+    this.userId,
+    this.name,
+    this.body,
+    this.tags,
+    this.id,
+  );
+
+  Note.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    id = json['_id'];
+    name = json['noteName'];
+    body = json['noteBody'];
+    tags = json['noteTags'];
   }
 }

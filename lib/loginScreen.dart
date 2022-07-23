@@ -4,7 +4,6 @@ import 'RegisterScreen.dart';
 import 'loginData.dart';
 import 'noteView.dart';
 
-
 class loginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -13,8 +12,7 @@ class loginScreen extends StatefulWidget {
 String email = '';
 String password = '';
 
-class GlobalData
-{
+class GlobalData {
   static String userId = '';
   static String firstName = '';
   static String lastName = '';
@@ -22,10 +20,8 @@ class GlobalData
   static String password = '';
 }
 
-
 class _LoginScreenState extends State<loginScreen> {
   @override
-
   String message = '';
   String newMessageText = '';
 
@@ -35,31 +31,30 @@ class _LoginScreenState extends State<loginScreen> {
     });
   }
 
-
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack (
-        children: <Widget> [
+      body: Stack(
+        children: <Widget>[
           Container(
             height: double.infinity,
             width: double.infinity,
-            decoration: BoxDecoration (
-              gradient: LinearGradient (
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF424242),
-                    Color(0xFF424242),
-                    Color(0xFF424242),
-                    Color(0xFF424242),
-                  ],
-                  stops: [0.1, 0.4, 0.7, 0.9],
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF424242),
+                  Color(0xFF424242),
+                  Color(0xFF424242),
+                  Color(0xFF424242),
+                ],
+                stops: [0.1, 0.4, 0.7, 0.9],
               ),
             ),
           ),
-          Container (
-              height: double.infinity,
-              child: SingleChildScrollView (
+          Container(
+            height: double.infinity,
+            child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(
                   horizontal: 40.0,
@@ -67,7 +62,7 @@ class _LoginScreenState extends State<loginScreen> {
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget> [
+                  children: <Widget>[
                     Text(
                       'Sign In',
                       style: TextStyle(
@@ -80,7 +75,7 @@ class _LoginScreenState extends State<loginScreen> {
                     SizedBox(height: 30.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget> [
+                      children: <Widget>[
                         Text(
                           'Email',
                           style: TextStyle(
@@ -110,16 +105,16 @@ class _LoginScreenState extends State<loginScreen> {
                               email = text;
                             },
                             keyboardType: TextInputType.emailAddress,
-                            style:TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white),
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.only(top: 14.0),
-                              prefixIcon: Icon (
+                              prefixIcon: Icon(
                                 Icons.email,
                                 color: Colors.white,
                               ),
                               hintText: 'Email Address',
-                              hintStyle: TextStyle (
+                              hintStyle: TextStyle(
                                 color: Colors.white54,
                                 fontFamily: 'OpenSans',
                               ),
@@ -128,10 +123,10 @@ class _LoginScreenState extends State<loginScreen> {
                         ),
                       ],
                     ),
-                    Column (
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget> [
-                        Text (
+                      children: <Widget>[
+                        Text(
                           'Password',
                           style: TextStyle(
                             color: Colors.white,
@@ -143,11 +138,11 @@ class _LoginScreenState extends State<loginScreen> {
                         SizedBox(height: 10.0),
                         Container(
                           alignment: Alignment.centerLeft,
-                          decoration: BoxDecoration (
+                          decoration: BoxDecoration(
                             color: Color(0xFF212121),
                             borderRadius: BorderRadius.circular(10.0),
                             boxShadow: [
-                              BoxShadow (
+                              BoxShadow(
                                 color: Colors.black12,
                                 blurRadius: 6.0,
                                 offset: Offset(0, 2),
@@ -155,7 +150,7 @@ class _LoginScreenState extends State<loginScreen> {
                             ],
                           ),
                           height: 60.0,
-                          child: TextField (
+                          child: TextField(
                             onChanged: (text) {
                               password = text;
                             },
@@ -184,50 +179,45 @@ class _LoginScreenState extends State<loginScreen> {
                     Container(
                       alignment: Alignment.bottomLeft,
                       child: ElevatedButton(
-                        onPressed: () async
-                        {
-                          String payload = '{"email":"' + email.trim() + '","password":"' + password.trim() + '"}';
+                        onPressed: () async {
+                          String payload = '{"email":"' +
+                              email.trim() +
+                              '","password":"' +
+                              password.trim() +
+                              '"}';
                           var userId = '';
                           var jsonObject;
                           String ret = '';
-                          try
-                          {
-                            String url = "https://marky-mark.herokuapp.com/api/users/?email=$email&password=$password";
+                          try {
+                            String url =
+                                "https://marky-mark.herokuapp.com/api/users/?email=$email&password=$password";
                             ret = await loginData.getJson(url, payload);
                             jsonObject = json.decode(ret);
                             userId = jsonObject["userId"];
-                          }
-                          catch(e)
-                          {
+                          } catch (e) {
                             newMessageText = "Incorrect Login/Password";
                             changeText();
                             return;
                           }
 
-                          if(userId.isEmpty)
-                          {
+                          if (userId.isEmpty) {
                             newMessageText = "Incorrect Login/Password";
                             changeText();
-                          }
-                          else
-                          {
+                          } else {
                             GlobalData.userId = userId;
                             GlobalData.firstName = jsonObject["firstName"];
                             GlobalData.lastName = jsonObject["lastName"];
                             GlobalData.email = email;
 
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => noteView())
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => noteView()));
                           }
-
-
                         },
-
                         child: Text(
                           'Sign In',
-                          style : TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
                             letterSpacing: 1.5,
                             fontSize: 15.0,
@@ -240,38 +230,34 @@ class _LoginScreenState extends State<loginScreen> {
                         ),
                       ),
                     ),
-                  Container(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => RegisterScreen())
-                        );
-                      },
-                      style: TextButton.styleFrom(
-                        textStyle: TextStyle(
-                          fontSize: 10.0,
+                    Container(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegisterScreen()));
+                        },
+                        style: TextButton.styleFrom(
+                          textStyle: TextStyle(
+                            fontSize: 10.0,
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'Don\'t have an account? Sign Up'
+                        child: Text('Don\'t have an account? Sign Up'),
                       ),
                     ),
-                  ),
-                  Row(
-                    children: <Widget> [
-                      Text('$message',style: TextStyle(fontSize: 10.0, color: Colors.white)),
-                    ],
-                  ) ,
+                    Row(
+                      children: <Widget>[
+                        Text('$message',
+                            style:
+                                TextStyle(fontSize: 10.0, color: Colors.white)),
+                      ],
+                    ),
                   ],
-                )
-              ),
+                )),
           ),
         ],
-    ),
+      ),
     );
   }
 }
-
-
-
