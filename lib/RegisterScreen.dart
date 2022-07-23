@@ -309,20 +309,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           }
 
                           ret = await registerData.getRegJson(url, payload);
+                          print(ret);
                           jsonObject = json.decode(ret);
                         }
                         catch(e)
                         {
                           newMessageText = 'User already exists';
                           changeText();
-                          //print(e.toString());
+                          print(e.toString());
                           return;
                         }
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => loginScreen())
-                        );
+                        if(ret.compareTo('{"error":"User already exists"}') != 0) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => loginScreen())
+                          );
+                        }
+                        else {
+                          newMessageText = "User already exists";
+                          changeText();
+                          return;
+                        }
 
                       },
 
