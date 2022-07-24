@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'NavBar.dart';
 import 'loginScreen.dart';
+import 'accountSettings.dart';
 
 class noteView extends StatefulWidget {
   @override
@@ -76,8 +77,13 @@ class _NoteViewState extends State<noteView> {
                   //
                 }),
             IconButton(
-              icon: Icon(Icons.logout_rounded),
-              onPressed: () => _logout(context),
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => accountSettings())
+                );
+              },
             ),
           ],
         ),

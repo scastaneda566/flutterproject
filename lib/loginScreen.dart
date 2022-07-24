@@ -180,17 +180,19 @@ class _LoginScreenState extends State<loginScreen> {
                       alignment: Alignment.bottomLeft,
                       child: ElevatedButton(
                         onPressed: () async {
-                          String payload = '{"email":"' +
-                              email.trim() +
-                              '","password":"' +
-                              password.trim() +
-                              '"}';
+                          String payload = '{"email":"' + email.trim() + '","password":"' + password.trim() + '"}';
                           var userId = '';
                           var jsonObject;
                           String ret = '';
                           try {
                             String url =
                                 "https://marky-mark.herokuapp.com/api/users/?email=$email&password=$password";
+                            if(email.isEmpty || password.isEmpty) {
+                              newMessageText = "Please fill out all fields";
+                              changeText();
+                              return;
+                            }
+
                             ret = await loginData.getJson(url, payload);
                             jsonObject = json.decode(ret);
                             userId = jsonObject["userId"];
