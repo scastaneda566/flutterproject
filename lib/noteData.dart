@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'noteView.dart';
 import 'NavBar.dart';
+import 'Note.dart';
+import 'loginScreen.dart';
 
 class noteData {
   Future<Note> getNote(String url, String outgoing) async {
@@ -30,22 +32,23 @@ class noteData {
     }
   }
 
-  static Future<List<Note>> getNotes(String url, String id) async {
+  static Future<String> getNotes(String id) async {
+    String jwt = GlobalData.token;
+
+    String url =
+        "https://marky-mark.herokuapp.com/api/users/$id/notes?searchText="
+        "&tags[]=&jwtToken=$jwt";
     final uri = Uri.parse(url);
-    List<Note> notes = <Note>[];
+    String ret = "";
 
     try {
       http.Response response = await http.get(uri);
 
-      var notesJson = json.decode(response.body);
-
-      for (var noteJson in notesJson) {
-        notes.add(Note.fromJson(noteJson));
-      }
+      ret = response.body;
     } catch (e) {
       print(e.toString());
     }
 
-    return notes;
+    return ret;
   }
 }

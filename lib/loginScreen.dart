@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'RegisterScreen.dart';
 import 'loginData.dart';
 import 'noteView.dart';
+import 'Note.dart';
 
 class loginScreen extends StatefulWidget {
   @override
@@ -18,6 +19,8 @@ class GlobalData {
   static String lastName = '';
   static String email = '';
   static String password = '';
+  static List<Note> notes = [];
+  static String token = '';
 }
 
 class _LoginScreenState extends State<loginScreen> {
@@ -180,14 +183,18 @@ class _LoginScreenState extends State<loginScreen> {
                       alignment: Alignment.bottomLeft,
                       child: ElevatedButton(
                         onPressed: () async {
-                          String payload = '{"email":"' + email.trim() + '","password":"' + password.trim() + '"}';
+                          String payload = '{"email":"' +
+                              email.trim() +
+                              '","password":"' +
+                              password.trim() +
+                              '"}';
                           var userId = '';
                           var jsonObject;
                           String ret = '';
                           try {
                             String url =
                                 "https://marky-mark.herokuapp.com/api/users/?email=$email&password=$password";
-                            if(email.isEmpty || password.isEmpty) {
+                            if (email.isEmpty || password.isEmpty) {
                               newMessageText = "Please fill out all fields";
                               changeText();
                               return;
@@ -196,6 +203,7 @@ class _LoginScreenState extends State<loginScreen> {
                             ret = await loginData.getJson(url, payload);
                             jsonObject = json.decode(ret);
                             userId = jsonObject["userId"];
+                            GlobalData.token = jsonObject["token"];
                           } catch (e) {
                             newMessageText = "Incorrect Login/Password";
                             changeText();

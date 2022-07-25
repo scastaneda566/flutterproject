@@ -4,6 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'NavBar.dart';
 import 'loginScreen.dart';
 import 'accountSettings.dart';
+import 'Note.dart';
+import 'noteData.dart';
+import 'dart:convert';
 
 class noteView extends StatefulWidget {
   @override
@@ -61,11 +64,13 @@ class _NoteViewState extends State<noteView> {
           backgroundColor: Color(0xFF212121),
           leading: IconButton(
             icon: Icon(Icons.toc_rounded),
-            onPressed: () {
+            onPressed: () async {
               if (_drawerscaffoldkey.currentState!.isDrawerOpen) {
                 Navigator.pop(context);
               } else {
                 _drawerscaffoldkey.currentState!.openDrawer();
+                //String ret = await noteData.getNotes(GlobalData.userId);
+                //GlobalData.notes = Note.getNotesArr(ret);
               }
             },
           ),
@@ -79,10 +84,8 @@ class _NoteViewState extends State<noteView> {
             IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => accountSettings())
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => accountSettings()));
               },
             ),
           ],
@@ -92,29 +95,5 @@ class _NoteViewState extends State<noteView> {
           key: _drawerscaffoldkey,
           drawer: navBar(),
         ));
-  }
-}
-
-class Note {
-  int userId = -1;
-  String id = "";
-  String name = "";
-  String body = "";
-  List<String> tags = [];
-
-  Note(
-    this.userId,
-    this.name,
-    this.body,
-    this.tags,
-    this.id,
-  );
-
-  Note.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
-    id = json['_id'];
-    name = json['noteName'];
-    body = json['noteBody'];
-    tags = json['noteTags'];
   }
 }
