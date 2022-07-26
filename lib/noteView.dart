@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'NavBar.dart';
 import 'loginScreen.dart';
 import 'accountSettings.dart';
+import 'search.dart';
 
 class noteView extends StatefulWidget {
   @override
@@ -51,47 +53,55 @@ class _NoteViewState extends State<noteView> {
         });
   }
 
+  Icon customIcon = const Icon(Icons.search);
+
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          iconTheme:
-              IconThemeData(color: Color(0xFF6CA8F1), opacity: 1, size: 40),
-          title: Text('$tempLast, $tempFirst',
-              style: TextStyle(color: Colors.white)),
-          backgroundColor: Color(0xFF212121),
-          leading: IconButton(
-            icon: Icon(Icons.toc_rounded),
+      appBar: AppBar(
+        iconTheme:
+            IconThemeData(color: Color(0xFF6CA8F1), opacity: 1, size: 40),
+        title: Text('$tempLast, $tempFirst',
+            style: TextStyle(color: Colors.white)),
+        backgroundColor: Color(0xFF212121),
+        leading: IconButton(
+          icon: Icon(Icons.toc_rounded),
+          onPressed: () {
+            if (_drawerscaffoldkey.currentState!.isDrawerOpen) {
+              Navigator.pop(context);
+            } else {
+              _drawerscaffoldkey.currentState!.openDrawer();
+            }
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: customIcon,
             onPressed: () {
-              if (_drawerscaffoldkey.currentState!.isDrawerOpen) {
-                Navigator.pop(context);
-              } else {
-                _drawerscaffoldkey.currentState!.openDrawer();
-              }
+              setState(() {
+                if (customIcon.icon == Icons.search) {
+                  customIcon = const Icon(Icons.cancel);
+                  buildFloatingSearchBar();
+                } else {
+                  customIcon = const Icon(Icons.search);
+                }
+              });
             },
           ),
-          actions: [
-            IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  //open search box
-                  //
-                }),
-            IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => accountSettings())
-                );
-              },
-            ),
-          ],
-        ),
-        body: Scaffold(
-          backgroundColor: Color(0xFF424242),
-          key: _drawerscaffoldkey,
-          drawer: navBar(),
-        ));
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => accountSettings()));
+            },
+          ),
+        ],
+      ),
+      body: Scaffold(
+        backgroundColor: Color(0xFF424242),
+        key: _drawerscaffoldkey,
+        drawer: navBar(),
+      ),
+    );
   }
 }
 

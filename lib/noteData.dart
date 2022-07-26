@@ -10,9 +10,7 @@ class noteData {
       http.Response response = await http.get(uri);
 
       ret = response.body;
-    }
-    catch(e)
-    {
+    } catch (e) {
       print(e.toString());
     }
 
