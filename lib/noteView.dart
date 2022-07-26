@@ -105,10 +105,11 @@ class _NoteViewState extends State<noteView> {
 
 class Note {
   String name = "";
-
-  Note(this.name);
+  String id = "";
+  Note(this.name, this.id);
 
   Note.fromJson(Map<String, dynamic> json) {
     name = json['noteName'];
+    id = json['noteId'];
   }
 }

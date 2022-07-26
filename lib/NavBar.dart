@@ -31,6 +31,46 @@ class navBarState extends State<navBar> {
     return notes;
   }
 
+  void deleteNote(String noteId, int index) {
+    showDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            title: const Text("Delete Note"),
+            content: const Text("Are you sure you want to delete this note?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () async {
+                  var jsonObject;
+                  String ret = '';
+                  String userId = GlobalData.userId;
+                  String jwt = GlobalData.token;
+
+                  try {
+                    String url =
+                        "https://marky-mark.herokuapp.com/api/users/$userId/notes/$noteId/jwtToken=$jwt";
+                    ret = await noteData.getDelNoteJson(url);
+                    jsonObject = json.decode(ret);
+                  } catch (e) {
+                    print(e.toString());
+                    return;
+                  }
+
+                  _notes.remove(index);
+                },
+                child: Text('Delete'),
+              ),
+            ],
+          );
+        });
+  }
+
   void initState() {
     fetchNotes().then((value) {
       setState(() {
@@ -46,23 +86,15 @@ class navBarState extends State<navBar> {
         color: Color.fromARGB(255, 17, 29, 45),
         child: ListView.builder(
           itemBuilder: (context, index) {
-            return Container(
-              height: 50.0,
-              child: Card(
-                color: Color(0xFF212121),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        _notes[index].name,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
+            return ListTile(
+              leading: Text(
+                _notes[index].name,
+                style: TextStyle(color: Colors.white),
               ),
+              trailing: const Icon(Icons.delete, color: Colors.white),
+              onTap: () {
+                deleteNote(_notes[index].id, index);
+              },
             );
           },
           itemCount: _notes.length,
