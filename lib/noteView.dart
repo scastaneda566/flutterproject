@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'NavBar.dart';
 import 'loginScreen.dart';
 import 'accountSettings.dart';
@@ -80,7 +79,6 @@ class _NoteViewState extends State<noteView> {
               setState(() {
                 if (customIcon.icon == Icons.search) {
                   customIcon = const Icon(Icons.cancel);
-                  buildFloatingSearchBar();
                 } else {
                   customIcon = const Icon(Icons.search);
                 }
