@@ -18,6 +18,7 @@ class GlobalData {
   static String lastName = '';
   static String email = '';
   static String password = '';
+  static String token = '';
 }
 
 class _LoginScreenState extends State<loginScreen> {
@@ -210,6 +211,7 @@ class _LoginScreenState extends State<loginScreen> {
                             GlobalData.firstName = jsonObject["firstName"];
                             GlobalData.lastName = jsonObject["lastName"];
                             GlobalData.email = email;
+                            GlobalData.token = jsonObject["token"];
 
                             Navigator.push(
                                 context,

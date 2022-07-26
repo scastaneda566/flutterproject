@@ -96,25 +96,11 @@ class _NoteViewState extends State<noteView> {
 }
 
 class Note {
-  int userId = -1;
-  String id = "";
   String name = "";
-  String body = "";
-  List<String> tags = [];
 
-  Note(
-    this.userId,
-    this.name,
-    this.body,
-    this.tags,
-    this.id,
-  );
+  Note(this.name);
 
   Note.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
-    id = json['_id'];
     name = json['noteName'];
-    body = json['noteBody'];
-    tags = json['noteTags'];
   }
 }
