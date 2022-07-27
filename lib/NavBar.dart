@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'noteData.dart';
 import 'noteView.dart';
 import 'loginScreen.dart';
+import 'deleteNoteData.dart';
 
 class navBar extends StatefulWidget {
   @override
@@ -23,7 +24,6 @@ class navBarState extends State<navBar> {
 
     if (response.statusCode == 200) {
       var notesJson = jsonDecode(response.body);
-      print(notesJson["results"]);
       for (var noteJson in notesJson["results"]) {
         notes.add(Note.fromJson(noteJson));
       }
@@ -49,23 +49,28 @@ class navBarState extends State<navBar> {
                 onPressed: () async {
                   var jsonObject;
                   String ret = '';
-                  String userId = GlobalData.userId;
+                  String id = GlobalData.userId;
+                  String nid = _notes[index].id;
                   String jwt = GlobalData.token;
+                  String payload = '{"noteIds":["' + nid.trim() + '"],"jwtToken":"' + jwt.trim() + '"}';
+                  print(payload);
 
                   try {
-                    String url =
-                        "https://marky-mark.herokuapp.com/api/users/$userId/notes/$noteId/jwtToken=$jwt";
-                    ret = await noteData.getDelNoteJson(url);
+                    String url = 'https://marky-mark.herokuapp.com/api/users/$id/notes';
+                    ret = await deleteNoteData.getDelNoteJson(url, payload);
                     jsonObject = json.decode(ret);
-                  } catch (e) {
+                    print(jsonObject);
+                  }
+                  catch(e) {
                     print(e.toString());
                     return;
                   }
 
-                  _notes.remove(index);
+                  Navigator.of(context).pop();
                 },
                 child: Text('Delete'),
               ),
+
             ],
           );
         });
@@ -91,10 +96,13 @@ class navBarState extends State<navBar> {
                 _notes[index].name,
                 style: TextStyle(color: Colors.white),
               ),
-              trailing: const Icon(Icons.delete, color: Colors.white),
-              onTap: () {
-                deleteNote(_notes[index].id, index);
-              },
+              trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  color: Colors.red,
+                  onPressed: () {
+                      deleteNote(_notes[index].id, index);
+                  },
+            ),
             );
           },
           itemCount: _notes.length,
