@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:html';
 import 'Note.dart';
 import 'loginScreen.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class CustomSearchDelegate extends SearchDelegate {
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+        appBarTheme: const AppBarTheme(
+            color: Color(0xFF212121),
+            iconTheme: IconThemeData(color: Color(0xFF6CA8F1))));
+  }
+
   //this overide is to clear the search text
   @override
   List<Widget>? buildActions(BuildContext context) {

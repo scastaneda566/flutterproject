@@ -52,25 +52,29 @@ class navBarState extends State<navBar> {
                   String id = GlobalData.userId;
                   String nid = _notes[index].id;
                   String jwt = GlobalData.token;
-                  String payload = '{"noteIds":["' + nid.trim() + '"],"jwtToken":"' + jwt.trim() + '"}';
+                  String payload = '{"noteIds":["' +
+                      nid.trim() +
+                      '"],"jwtToken":"' +
+                      jwt.trim() +
+                      '"}';
                   print(payload);
 
                   try {
-                    String url = 'https://marky-mark.herokuapp.com/api/users/$id/notes';
+                    String url =
+                        'https://marky-mark.herokuapp.com/api/users/$id/notes';
                     ret = await deleteNoteData.getDelNoteJson(url, payload);
                     jsonObject = json.decode(ret);
                     print(jsonObject);
-                  }
-                  catch(e) {
+                  } catch (e) {
                     print(e.toString());
                     return;
                   }
 
                   Navigator.of(context).pop();
+                  setState(() {});
                 },
                 child: Text('Delete'),
               ),
-
             ],
           );
         });
@@ -97,12 +101,12 @@ class navBarState extends State<navBar> {
                 style: TextStyle(color: Colors.white),
               ),
               trailing: IconButton(
-                  icon: const Icon(Icons.delete),
-                  color: Colors.red,
-                  onPressed: () {
-                      deleteNote(_notes[index].id, index);
-                  },
-            ),
+                icon: const Icon(Icons.delete),
+                color: Colors.red,
+                onPressed: () {
+                  deleteNote(_notes[index].id, index);
+                },
+              ),
             );
           },
           itemCount: _notes.length,

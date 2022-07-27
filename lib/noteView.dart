@@ -76,13 +76,7 @@ class _NoteViewState extends State<noteView> {
           IconButton(
             icon: customIcon,
             onPressed: () {
-              setState(() {
-                if (customIcon.icon == Icons.search) {
-                  customIcon = const Icon(Icons.cancel);
-                } else {
-                  customIcon = const Icon(Icons.search);
-                }
-              });
+              showSearch(context: context, delegate: CustomSearchDelegate());
             },
           ),
           IconButton(

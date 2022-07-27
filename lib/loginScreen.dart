@@ -214,6 +214,7 @@ class _LoginScreenState extends State<loginScreen> {
                             GlobalData.userId = userId;
                             GlobalData.firstName = jsonObject["firstName"];
                             GlobalData.lastName = jsonObject["lastName"];
+                            print(GlobalData.firstName);
                             GlobalData.email = email;
                             GlobalData.token = jsonObject["token"];
 

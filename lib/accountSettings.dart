@@ -232,11 +232,11 @@ class _AccountSettingsState extends State<accountSettings> {
                       ),
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size(200, 36.0),
-                        primary: Color(0xFF6CA8F1),
+                        primary: Color.fromARGB(255, 17, 29, 45),
                       ),
                     ),
                   ),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 30.0),
                   Container(
                     alignment: Alignment.center,
                     child: ElevatedButton(
@@ -253,7 +253,7 @@ class _AccountSettingsState extends State<accountSettings> {
                       ),
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size(200, 36.0),
-                        primary: Color.fromARGB(245, 76, 145, 231),
+                        primary: Color.fromARGB(255, 17, 29, 45),
                       ),
                     ),
                   ),
@@ -284,7 +284,7 @@ class _AccountSettingsState extends State<accountSettings> {
           ),
           Container(
             alignment: Alignment.topLeft,
-            child: CloseButton(color: Color.fromARGB(255, 239, 4, 4)),
+            child: CloseButton(color: Color(0xFF212121)),
           )
         ],
       ),
