@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:core';
-import 'dart:html';
 import 'Note.dart';
 import 'loginScreen.dart';
 import 'package:flutter/services.dart';

@@ -201,6 +201,7 @@ class _LoginScreenState extends State<loginScreen> {
                             ret = await loginData.getJson(url, payload);
                             jsonObject = json.decode(ret);
                             userId = jsonObject["userId"];
+
                           } catch (e) {
                             newMessageText = "Incorrect Login/Password";
                             changeText();
@@ -214,9 +215,8 @@ class _LoginScreenState extends State<loginScreen> {
                             GlobalData.userId = userId;
                             GlobalData.firstName = jsonObject["firstName"];
                             GlobalData.lastName = jsonObject["lastName"];
-                            print(GlobalData.firstName);
                             GlobalData.email = email;
-                            GlobalData.token = jsonObject["token"];
+                            GlobalData.token = jsonObject["accessToken"];
 
                             Navigator.push(
                                 context,

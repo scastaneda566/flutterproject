@@ -18,8 +18,9 @@ class navBarState extends State<navBar> {
     String id = GlobalData.userId;
     String jwt = GlobalData.token;
     var url =
-        "https://marky-mark.herokuapp.com/api/users/$id/notes?searchText=&tags[]=&jwtToken=$jwt";
+        "https://marky-mark.herokuapp.com/api/users/$id/notes?searchText=&tags[]=&accessToken=$jwt";
     var response = await http.get(Uri.parse(url));
+    print(response);
     var notes = <Note>[];
 
     if (response.statusCode == 200) {
@@ -64,7 +65,6 @@ class navBarState extends State<navBar> {
                         'https://marky-mark.herokuapp.com/api/users/$id/notes';
                     ret = await deleteNoteData.getDelNoteJson(url, payload);
                     jsonObject = json.decode(ret);
-                    print(jsonObject);
                   } catch (e) {
                     print(e.toString());
                     return;
