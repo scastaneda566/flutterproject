@@ -69,16 +69,12 @@ class _NoteViewState extends State<noteView> {
                   String id = GlobalData.userId;
                   String nid = GlobalData.notes[index].id;
                   String jwt = GlobalData.token;
-                  String payload = '{"noteIds":["' +
-                      nid.trim() +
-                      '"],"jwtToken":"' +
-                      jwt.trim() +
-                      '"}';
+                  String payload = '{"noteIds":["' + nid.trim() + '"]} ';
                   print(payload);
 
                   try {
                     String url =
-                        'https://marky-mark.herokuapp.com/api/users/$id/notes';
+                        'https://marky-mark.herokuapp.com/api/users/$id/notes?&accessToken=$jwt';
                     ret = await deleteNoteData.getDelNoteJson(url, payload);
                     jsonObject = json.decode(ret);
                   } catch (e) {
@@ -86,7 +82,13 @@ class _NoteViewState extends State<noteView> {
                     return;
                   }
 
-                  fetchNotes();
+                  fetchNotes().then((value) {
+                    setState(() {
+                      _notes = <Note>[];
+                      _notes.addAll(value);
+                    });
+                  });
+
                   Navigator.of(context).pop();
                 },
                 child: Text('Delete'),
@@ -105,8 +107,6 @@ class _NoteViewState extends State<noteView> {
     super.initState();
   }
 
-  final GlobalKey<ScaffoldState> _drawerscaffoldkey =
-      new GlobalKey<ScaffoldState>();
   String tempFirst = GlobalData.firstName;
   String tempLast = GlobalData.lastName;
 
@@ -148,6 +148,8 @@ class _NoteViewState extends State<noteView> {
   Icon customIcon = const Icon(Icons.search);
 
   Widget build(BuildContext context) {
+    tempFirst = GlobalData.firstName;
+    tempLast = GlobalData.lastName;
     return Scaffold(
       appBar: AppBar(
         iconTheme:
@@ -156,13 +158,14 @@ class _NoteViewState extends State<noteView> {
             style: TextStyle(color: Colors.white)),
         backgroundColor: Color(0xFF212121),
         leading: IconButton(
-          icon: Icon(Icons.toc_rounded),
+          icon: Icon(Icons.refresh),
           onPressed: () {
-            if (_drawerscaffoldkey.currentState!.isDrawerOpen) {
-              Navigator.pop(context);
-            } else {
-              _drawerscaffoldkey.currentState!.openDrawer();
-            }
+            fetchNotes().then((value) {
+              setState(() {
+                _notes = <Note>[];
+                _notes.addAll(value);
+              });
+            });
           },
         ),
         actions: [

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'loginScreen.dart';
 import 'deleteUserData.dart';
 import 'changeNameData.dart';
+import 'noteView.dart';
 
 class accountSettings extends StatefulWidget {
   _AccountSettingsState createState() => _AccountSettingsState();
@@ -284,10 +285,20 @@ class _AccountSettingsState extends State<accountSettings> {
           ),
           Container(
             alignment: Alignment.topLeft,
-            child: CloseButton(color: Color(0xFF212121)),
+            child: IconButton(
+                icon: Icon(Icons.close),
+                color: Color(0xFF212121),
+                onPressed: () {
+                  setState(() {
+                    GlobalData.firstName = tempFirst;
+                    GlobalData.lastName = tempLast;
+                  });
+                  Navigator.of(context).pop();
+                }),
           )
         ],
       ),
     );
   }
 }
+// CloseButton(color: Color(0xFF212121)),

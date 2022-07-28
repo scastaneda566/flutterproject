@@ -63,19 +63,21 @@ class CustomSearchDelegate extends SearchDelegate<Note?> {
       itemBuilder: (context, index) {
         var result = matchQuery[index];
         return ListTile(
-            title: Text(
-              result.name,
-              style: TextStyle(color: Colors.white),
-            ),
-            tileColor: Color(0xFF424242),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => markdownViewer(
-                        text: _notes[index].body, title: _notes[index].name)),
-              );
-            });
+          title: Text(
+            result.name,
+            style: TextStyle(color: Colors.white),
+          ),
+          tileColor: Color(0xFF424242),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => markdownViewer(
+                      text: matchQuery[index].body,
+                      title: matchQuery[index].name)),
+            );
+          },
+        );
       },
     );
   }
@@ -93,19 +95,21 @@ class CustomSearchDelegate extends SearchDelegate<Note?> {
       itemBuilder: (context, index) {
         var result = matchQuery[index];
         return ListTile(
-            title: Text(
-              result.name,
-              style: TextStyle(color: Colors.white),
-            ),
-            tileColor: Color(0xFF424242),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => markdownViewer(
-                        text: _notes[index].body, title: _notes[index].name)),
-              );
-            });
+          title: Text(
+            result.name,
+            style: TextStyle(color: Colors.white),
+          ),
+          tileColor: Color(0xFF424242),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => markdownViewer(
+                      text: matchQuery[index].body,
+                      title: matchQuery[index].name)),
+            );
+          },
+        );
       },
     );
   }

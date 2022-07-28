@@ -12,6 +12,7 @@ String email = '';
 String firstName = '';
 String lastName = '';
 String password = '';
+String passwordConfirm = '';
 
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
@@ -271,6 +272,54 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
+                      Text(
+                        'Confirm Password',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'OpenSans',
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF212121),
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 6.0,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        height: 60.0,
+                        child: TextField(
+                          onChanged: (text) {
+                            passwordConfirm = text;
+                          },
+                          obscureText: true,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'OpenSans',
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(top: 14.0),
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: Colors.white,
+                            ),
+                            hintText: 'Confirm Password',
+                            hintStyle: TextStyle(
+                              color: Colors.white54,
+                              fontFamily: 'OpenSans',
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   Column(
@@ -309,11 +358,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             String url =
                                 "https://marky-mark.herokuapp.com/api/users";
 
+                            RegExp regex = RegExp(
+                                r'^(?=.*[A-Z])(?=.*[a-z])(?=.*?[0-9]).{8,}$');
+
                             if (firstName.isEmpty ||
                                 lastName.isEmpty ||
                                 email.isEmpty ||
-                                password.isEmpty) {
+                                password.isEmpty ||
+                                passwordConfirm.isEmpty) {
                               newMessageText = "Please fill out all fields";
+                              changeText();
+                              return;
+                            } else if (password.compareTo(passwordConfirm) !=
+                                0) {
+                              newMessageText = "Passwords do not match.";
+                              changeText();
+                              return;
+                            } else if (!regex.hasMatch(password)) {
+                              newMessageText =
+                                  "Password does not meet requirements";
                               changeText();
                               return;
                             }
