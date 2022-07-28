@@ -46,7 +46,7 @@ class _ForgotPassState extends State<forgotPass> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Reset Password',
+                      'Request Password Reset',
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'OpenSans',
@@ -91,7 +91,7 @@ class _ForgotPassState extends State<forgotPass> {
                       ),
                     ),
                     SizedBox(height: 30.0,),
-                    Container(
+                    /*Container(
                       alignment: Alignment.centerLeft,
                       decoration: BoxDecoration(
                         color: Color(0xFF212121),
@@ -128,7 +128,7 @@ class _ForgotPassState extends State<forgotPass> {
                           ),
                         ),
                       ),
-                    ),
+                    ),*/
                     SizedBox(height: 30.0),
                     Container(
                       alignment: Alignment.center,
@@ -136,20 +136,11 @@ class _ForgotPassState extends State<forgotPass> {
                         onPressed: () async {
                           var jsonObject;
                           String ret = '';
-                          String payload = '{"email":"' + email.trim() + '","password":"' + password.trim() + '"}';
 
                           try{
-                            String url = "https://marky-mark.herokuapp.com/api/users/reset";
-                            if(newPassword.isEmpty) {
-                              return;
-                            }
+                            String url = "https://marky-mark-clone.herokuapp.com/api/users/requestreset/?email=$e&type=password";
 
-                            http.Response response = await http.post(Uri.parse(url), body: utf8.encode(payload),
-                                headers: {
-                                  'Accept': 'application/json',
-                                  'Content-Type': 'application/json',
-                                },
-                                encoding: Encoding.getByName("utf-8"));
+                            http.Response response = await http.get(Uri.parse(url));
                             ret = response.body;
                             jsonObject = json.decode(ret);
                             print(ret);

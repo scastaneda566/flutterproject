@@ -194,7 +194,7 @@ class _LoginScreenState extends State<loginScreen> {
                           String ret = '';
                           try {
                             String url =
-                                "https://marky-mark.herokuapp.com/api/users/?email=$email&password=$password";
+                                "https://marky-mark-clone.herokuapp.com/api/users/?email=$email&password=$password";
                             if (email.isEmpty || password.isEmpty) {
                               newMessageText = "Please fill out all fields";
                               changeText();

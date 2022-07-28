@@ -357,7 +357,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                           try {
                             String url =
-                                "https://marky-mark.herokuapp.com/api/users";
+                                "https://marky-mark-clone.herokuapp.com/api/users";
 
                             RegExp regex = RegExp(
                                 r'^(?=.*[A-Z])(?=.*[a-z])(?=.*?[0-9]).{8,}$');

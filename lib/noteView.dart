@@ -32,7 +32,7 @@ class _NoteViewState extends State<noteView> {
     String id = GlobalData.userId;
     String jwt = GlobalData.token;
     var url =
-        "https://marky-mark.herokuapp.com/api/users/$id/notes?searchText=&tags[]=&accessToken=$jwt";
+        "https://marky-mark-clone.herokuapp.com/api/users/$id/notes?searchText=&tags[]=&accessToken=$jwt";
     var response = await http.get(Uri.parse(url));
     print(response);
     var notes = <Note>[];
@@ -74,7 +74,7 @@ class _NoteViewState extends State<noteView> {
 
                   try {
                     String url =
-                        'https://marky-mark.herokuapp.com/api/users/$id/notes?&accessToken=$jwt';
+                        'https://marky-mark-clone.herokuapp.com/api/users/$id/notes?&accessToken=$jwt';
                     ret = await deleteNoteData.getDelNoteJson(url, payload);
                     jsonObject = json.decode(ret);
                   } catch (e) {

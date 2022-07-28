@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'loginScreen.dart';
 import 'deleteUserData.dart';
 import 'changeNameData.dart';
+import 'forgotPass.dart';
 import 'noteView.dart';
 
 class accountSettings extends StatefulWidget {
@@ -73,7 +74,7 @@ class _AccountSettingsState extends State<accountSettings> {
 
                   try {
                     String url =
-                        "https://marky-mark.herokuapp.com/api/users/$id";
+                        "https://marky-mark-clone.herokuapp.com/api/users/$id";
                     print(url);
                     ret = await deleteUserData.getDelJson(url, payload);
                     jsonObject = json.decode(ret);
@@ -157,7 +158,7 @@ class _AccountSettingsState extends State<accountSettings> {
 
                   try {
                     String url =
-                        "https://marky-mark.herokuapp.com/api/users/changename";
+                        "https://marky-mark-clone.herokuapp.com/api/users/changename";
                     ret = await changeNameData.getChangeJson(url, payload);
                     jsonObject = json.decode(ret);
                     print(jsonObject);
@@ -237,6 +238,30 @@ class _AccountSettingsState extends State<accountSettings> {
                       ),
                     ),
                   ),
+                  Container(
+                      alignment: Alignment.center,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => forgotPass())
+                          );
+                        },
+                        child: Text(
+                          'Reset Password',
+                          style: TextStyle(
+                            color: Colors.white,
+                            letterSpacing: 1.5,
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'OpenSans',
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(200, 36.0),
+                          primary: Color.fromARGB(255, 17, 29, 45),
+                        ),
+                      )),
                   SizedBox(height: 30.0),
                   Container(
                     alignment: Alignment.center,
