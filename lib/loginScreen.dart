@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'RegisterScreen.dart';
 import 'loginData.dart';
 import 'noteView.dart';
+import 'forgotPass.dart';
 
 class loginScreen extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class GlobalData {
   static String email = '';
   static String password = '';
   static String token = '';
+  static String rtoken = '';
   static List<Note> notes = <Note>[];
 }
 
@@ -253,6 +255,22 @@ class _LoginScreenState extends State<loginScreen> {
                           ),
                         ),
                         child: Text('Don\'t have an account? Sign Up'),
+                      ),
+                    ),
+                    Container(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => forgotPass()));
+                        },
+                        style: TextButton.styleFrom(
+                          textStyle: TextStyle(
+                            fontSize: 10.0,
+                          ),
+                        ),
+                        child: Text('Forgot password?'),
                       ),
                     ),
                     Row(

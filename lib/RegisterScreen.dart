@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'loginScreen.dart';
 import 'registerData.dart';
+import 'emailVerif.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -393,7 +394,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => loginScreen()));
+                                  builder: (context) => emailVerif()));
                         },
                         child: Text(
                           'Sign Up',
