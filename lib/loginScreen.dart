@@ -19,6 +19,7 @@ class GlobalData {
   static String email = '';
   static String password = '';
   static String token = '';
+  static List<Note> notes = <Note>[];
 }
 
 class _LoginScreenState extends State<loginScreen> {
@@ -201,7 +202,6 @@ class _LoginScreenState extends State<loginScreen> {
                             ret = await loginData.getJson(url, payload);
                             jsonObject = json.decode(ret);
                             userId = jsonObject["userId"];
-
                           } catch (e) {
                             newMessageText = "Incorrect Login/Password";
                             changeText();

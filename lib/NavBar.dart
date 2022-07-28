@@ -29,6 +29,7 @@ class navBarState extends State<navBar> {
         notes.add(Note.fromJson(noteJson));
       }
     }
+    GlobalData.notes = notes;
     return notes;
   }
 

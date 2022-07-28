@@ -26,9 +26,7 @@ class Note {
 }
 
 class _NoteViewState extends State<noteView> {
-
   List<Note> _notes = <Note>[];
-
 
   Future<List<Note>> fetchNotes() async {
     String id = GlobalData.userId;
@@ -45,6 +43,8 @@ class _NoteViewState extends State<noteView> {
         notes.add(Note.fromJson(noteJson));
       }
     }
+
+    GlobalData.notes = notes;
     return notes;
   }
 
@@ -67,7 +67,7 @@ class _NoteViewState extends State<noteView> {
                   var jsonObject;
                   String ret = '';
                   String id = GlobalData.userId;
-                  String nid = _notes[index].id;
+                  String nid = GlobalData.notes[index].id;
                   String jwt = GlobalData.token;
                   String payload = '{"noteIds":["' +
                       nid.trim() +
@@ -86,8 +86,8 @@ class _NoteViewState extends State<noteView> {
                     return;
                   }
 
+                  fetchNotes();
                   Navigator.of(context).pop();
-                  setState(() {});
                 },
                 child: Text('Delete'),
               ),
@@ -95,6 +95,7 @@ class _NoteViewState extends State<noteView> {
           );
         });
   }
+
   void initState() {
     fetchNotes().then((value) {
       setState(() {
@@ -210,8 +211,11 @@ class _NoteViewState extends State<noteView> {
                     ),
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => markdownViewer(text: _notes[index].body, title: _notes[index].name)),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => markdownViewer(
+                                text: _notes[index].body,
+                                title: _notes[index].name)),
                       );
                     },
                     trailing: IconButton(
@@ -232,4 +236,3 @@ class _NoteViewState extends State<noteView> {
     );
   }
 }
-
